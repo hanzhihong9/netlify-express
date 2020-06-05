@@ -18,5 +18,19 @@ app.use(bodyParser.json());
 app.use('/.netlify/functions/server', router);  // path must route to lambda
 app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
 
+app.get('/headertest', (request, response) => {
+  response.header('1222ETag', '12345')
+  response.header('Access-Control-Allow-Credentials', true)
+  response.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type")
+  response.header('Access-Control-Allow-Origin', '*')
+  response.header('Content-Security-Policy',  "child-src 'self' *;")
+  response.header('Content-Type', 'text/html')
+    // res.sendFile('index.html');
+  response.sendFile(path.join(__dirname+'/index.html'));
+
+  //Accept-Ranges: bytes
+
+})
+
 module.exports = app;
 module.exports.handler = serverless(app);
